@@ -1,11 +1,16 @@
-import Head from 'next/head'
-import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
-import Link from 'next/link'
-import Date from '../components/date'
+import React, { ReactElement } from 'react';
+import Head from 'next/head';
+import Layout, { siteTitle } from '../components/layout';
+import utilStyles from '../styles/utils.module.css';
+import Link from 'next/link';
+import Date from '../components/date';
+import { GetStaticProps } from 'next';
 
-export default function Home({ allPostsData }) {
+type Props = {
+  allPostsData: { id: string; date: string; title: string }[];
+};
+
+export default function Home({ allPostsData }: Props): ReactElement {
   return (
     <Layout home>
       <Head>
@@ -35,14 +40,14 @@ export default function Home({ allPostsData }) {
         </ul>
       </section>
     </Layout>
-  )
+  );
 }
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
+export const getStaticProps: GetStaticProps = async () => {
+  const allPostsData = [];
   return {
     props: {
       allPostsData
     }
-  }
-}
+  };
+};
