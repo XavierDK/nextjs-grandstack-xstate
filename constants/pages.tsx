@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Home as HomeIcon } from '@material-ui/icons';
+import { Home as HomeIcon, Info as AboutIcon } from '@material-ui/icons';
 
 type Page = {
   id: string;
@@ -14,6 +14,12 @@ const pages: Page[] = [
     name: 'Home',
     href: '/',
     icon: <HomeIcon />
+  },
+  {
+    id: '_ABOUT_',
+    name: 'About',
+    href: '/about',
+    icon: <AboutIcon />
   }
 ];
 

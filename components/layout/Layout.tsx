@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type Props = {
-  children: ReactElement[];
+  children: ReactElement | ReactElement[];
 };
 
 const Layout = (props: Props): ReactElement => {
