@@ -18,6 +18,7 @@
     "@material-ui/core": "next",
     "@material-ui/icons": "next",
     "@xstate/immer": "^0.1.0",
+    "@xstate/inspect": "^0.4.1",
     "@xstate/react": "^1.2.2",
     "date-fns": "^2.11.1",
     "gray-matter": "^4.0.2",

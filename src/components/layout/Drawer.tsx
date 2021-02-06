@@ -12,7 +12,8 @@ import React, { ReactElement, useContext } from 'react';
 import clsx from 'clsx';
 import Link from '../Link';
 import pages from '../../constants/pages';
-import { AppContext } from '../../contexts/app/appContext';
+import { useService } from '@xstate/react';
+import { AppContext } from '../../../pages/_app';
 
 const drawerWidth = 240;
 
@@ -45,15 +46,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Drawer = (): ReactElement => {
   const classes = useStyles();
-  const { state } = useContext(AppContext);
-
+  const service = useContext(AppContext);
+  const [current] = useService(service);
+  const isDrawerOpened = current.matches('drawer.opened');
   return (
     <MUIDrawer
       variant="permanent"
       classes={{
-        paper: clsx(classes.drawerPaper, !state.isDrawerOpened && classes.drawerPaperClose)
+        paper: clsx(classes.drawerPaper, !isDrawerOpened && classes.drawerPaperClose)
       }}
-      open={state.isDrawerOpened}
+      open={isDrawerOpened}
     >
       <Toolbar />
       <List>

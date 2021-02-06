@@ -3,8 +3,8 @@ import React, { ReactElement, useContext } from 'react';
 import clsx from 'clsx';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import infos from '../../constants/infos';
-import { AppContext } from '../../contexts/app/appContext';
-import { AppActionTypes } from '../../contexts/app/appReducers';
+import { useService } from '@xstate/react';
+import { AppContext } from '../../../pages/_app';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -31,9 +31,10 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = (): ReactElement => {
   const classes = useStyles();
-  const { dispatch } = useContext(AppContext);
+  const service = useContext(AppContext);
+  const [, send] = useService(service);
 
-  const toggleDrawer = () => dispatch({ type: AppActionTypes.ToggleDrawer });
+  const toggleDrawer = () => send('TOGGLE_DRAWER');
 
   return (
     <AppBar position="absolute" className={clsx(classes.appBar)}>
