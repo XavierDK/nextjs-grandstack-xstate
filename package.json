@@ -11,6 +11,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@xstate/immer": "^0.1.0",
     "@xstate/react": "^1.2.2",
     "date-fns": "^2.11.1",
