@@ -1,8 +1,10 @@
 import { AppBar, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import clsx from 'clsx';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import infos from '../../constants/infos';
+import { AppContext } from '../../contexts/app/appContext';
+import { AppActionTypes } from '../../contexts/app/appReducers';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -27,12 +29,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-type Props = {
-  toggleDrawer: () => void;
-};
-
-const NavBar = ({ toggleDrawer }: Props): ReactElement => {
+const NavBar = (): ReactElement => {
   const classes = useStyles();
+  const { dispatch } = useContext(AppContext);
+
+  const toggleDrawer = () => dispatch({ type: AppActionTypes.ToggleDrawer });
+
   return (
     <AppBar position="absolute" className={clsx(classes.appBar)}>
       <Toolbar className={classes.toolbar}>

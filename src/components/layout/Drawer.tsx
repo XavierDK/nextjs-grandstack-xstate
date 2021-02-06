@@ -8,10 +8,11 @@ import {
   makeStyles,
   Toolbar
 } from '@material-ui/core';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import clsx from 'clsx';
 import Link from '../Link';
 import pages from '../../constants/pages';
+import { AppContext } from '../../contexts/app/appContext';
 
 const drawerWidth = 240;
 
@@ -42,19 +43,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-type Props = {
-  drawerOpen: boolean;
-};
-
-const Drawer = ({ drawerOpen }: Props): ReactElement => {
+const Drawer = (): ReactElement => {
   const classes = useStyles();
+  const { state } = useContext(AppContext);
+
   return (
     <MUIDrawer
       variant="permanent"
       classes={{
-        paper: clsx(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose)
+        paper: clsx(classes.drawerPaper, !state.isDrawerOpened && classes.drawerPaperClose)
       }}
-      open={drawerOpen}
+      open={state.isDrawerOpened}
     >
       <Toolbar />
       <List>

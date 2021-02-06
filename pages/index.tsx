@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 import Head from 'next/head';
-import Layout from '../components/layout/Layout';
+import Layout from '../src/components/layout/Layout';
 import { Container, Box, Typography, Button } from '@material-ui/core';
-import ProTip from '../components/ProTip';
-import Link from '../components/Link';
+import ProTip from '../src/components/ProTip';
+import Link from '../src/components/Link';
 
 export default function Home(): ReactElement {
   return (

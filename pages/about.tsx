@@ -1,7 +1,7 @@
 import * as React from 'react';
-import ProTip from '../components/ProTip';
-import Link from '../components/Link';
-import Layout from '../components/layout/Layout';
+import ProTip from '../src/components/ProTip';
+import Link from '../src/components/Link';
+import Layout from '../src/components/layout/Layout';
 import Head from 'next/head';
 import { Container, Box, Typography, Button } from '@material-ui/core';
 

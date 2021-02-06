@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import Head from 'next/head';
 import { Box, makeStyles, Container, CssBaseline } from '@material-ui/core';
 import Copyright from './Copyright';
@@ -29,9 +29,6 @@ type Props = {
 const Layout = (props: Props): ReactElement => {
   const { children } = props;
   const classes = useStyles();
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
   return (
     <div>
@@ -43,8 +40,8 @@ const Layout = (props: Props): ReactElement => {
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
       <div className={classes.root}>
-        <NavBar toggleDrawer={toggleDrawer} />
-        <Drawer drawerOpen={drawerOpen} />
+        <NavBar />
+        <Drawer />
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container maxWidth={false} className={classes.container}>
