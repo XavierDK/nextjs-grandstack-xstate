@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Home as HomeIcon, Info as AboutIcon } from '@material-ui/icons';
+import { Home as HomeIcon, Info as AboutIcon, ListAlt as ListAltIcon } from '@material-ui/icons';
 
 type Page = {
   id: string;
@@ -14,6 +14,12 @@ const pages: Page[] = [
     name: 'Home',
     href: '/',
     icon: <HomeIcon />
+  },
+  {
+    id: '_TODO_LIST_',
+    name: 'Todo list',
+    href: '/todolist',
+    icon: <ListAltIcon />
   },
   {
     id: '_ABOUT_',
