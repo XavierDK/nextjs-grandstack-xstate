@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import infos from '../../constants/infos';
 import { useService } from '@xstate/react';
-import { AppContext } from '../../../pages/_app';
+import { AppContext } from '../../machines/app/appMachine';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

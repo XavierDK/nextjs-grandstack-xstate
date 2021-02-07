@@ -13,7 +13,7 @@ import clsx from 'clsx';
 import Link from '../Link';
 import pages from '../../constants/pages';
 import { useService } from '@xstate/react';
-import { AppContext } from '../../../pages/_app';
+import { AppContext } from '../../machines/app/appMachine';
 
 const drawerWidth = 240;
 

@@ -1,11 +1,8 @@
 import React, { ReactElement } from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
-import createEmotionServer from '@emotion/server/create-instance';
 import theme from '../src/constants/theme';
-import { cache } from './_app';
-
-const { extractCritical } = createEmotionServer(cache);
+import { extractCritical } from '../src/utils/cache';
 
 export default class MyDocument extends Document {
   render(): ReactElement {

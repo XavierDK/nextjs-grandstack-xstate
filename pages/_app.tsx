@@ -1,26 +1,19 @@
-import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@material-ui/core';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { ReactElement, useEffect } from 'react';
 import theme from '../src/constants/theme';
-import createCache from '@emotion/cache';
-import appMachine, { AppServiceType } from '../src/machines/app/appMachine';
+import appMachine, { AppProvider } from '../src/machines/app/appMachine';
 import { useMachine } from '@xstate/react';
-import { inspect } from '@xstate/inspect';
-
-if (typeof window !== 'undefined') {
-  inspect({
-    iframe: false
-  });
-}
-
-export const cache = createCache({ key: 'css', prepend: true });
-export const AppContext = React.createContext<AppServiceType>(undefined);
+import config from '../src/constants/config';
+import DebugMenu from '../src/components/DebugMenu';
+import '../src/utils/debug'; // Needed to make debug working
+import CacheProvider from '../src/utils/cache';
 
 export default function App(props: AppProps): ReactElement {
   const { Component, pageProps } = props;
-  const [, , service] = useMachine(appMachine, { devTools: true });
+
+  const [, , service] = useMachine(appMachine, { devTools: config.isDebugEnabled });
 
   useEffect(() => {
     // Remove the server-side injected CSS.
@@ -31,16 +24,17 @@ export default function App(props: AppProps): ReactElement {
   }, []);
 
   return (
-    <CacheProvider value={cache}>
-      <AppContext.Provider value={service}>
+    <CacheProvider>
+      <AppProvider value={service}>
         <Head>
           <link rel="icon" href="/favicon.ico" />
           <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         </Head>
         <ThemeProvider theme={theme}>
           <Component {...pageProps} />
+          <DebugMenu />
         </ThemeProvider>
-      </AppContext.Provider>
+      </AppProvider>
     </CacheProvider>
   );
 }
