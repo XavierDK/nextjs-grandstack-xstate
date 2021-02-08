@@ -2,13 +2,13 @@ import { ThemeProvider } from '@material-ui/core';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { ReactElement, useEffect } from 'react';
-import theme from '../src/constants/theme';
-import appMachine, { AppProvider } from '../src/machines/app/appMachine';
+import theme from '../web/constants/theme';
+import appMachine, { AppProvider } from '../web/machines/app/appMachine';
 import { useMachine } from '@xstate/react';
-import config from '../src/constants/config';
-import DebugMenu from '../src/components/DebugMenu';
-import '../src/utils/debug'; // Needed to make debug working
-import CacheProvider from '../src/utils/cache';
+import config from '../web/constants/config';
+import DebugMenu from '../web/components/DebugMenu';
+import '../web/utils/debug'; // Needed to make debug working
+import CacheProvider from '../web/utils/cache';
 
 export default function App(props: AppProps): ReactElement {
   const { Component, pageProps } = props;

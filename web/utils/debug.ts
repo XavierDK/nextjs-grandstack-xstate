@@ -1,5 +1,5 @@
 import { inspect } from '@xstate/inspect';
-import { Storage } from '../utils/storage';
+import { Storage } from './storage';
 
 export class Debug {
   static handle(): void {
