@@ -1,1 +1,9 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+# NextJS-Grandstack-XState
+
+- [NextJS-Grandstack-XState](#nextjs-grandstack-xstate)
+  - [This is... ?](#this-is-)
+  - [Getting started](#getting-started)
+
+## This is... ?
+
+## Getting started
