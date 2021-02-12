@@ -1,27 +1,35 @@
 import React, { ReactElement } from 'react';
 import Head from 'next/head';
 import Layout from '../web/components/layout/Layout';
-import { Container, Box, Typography, Button } from '@material-ui/core';
-import ProTip from '../web/components/ProTip';
-import Link from '../web/components/Link';
+import { Container } from '@material-ui/core';
+import unified from 'unified';
+import parse from 'remark-parse';
+import remark2react from 'remark-react';
+import path from 'path';
+import fs from 'fs';
+import { GetStaticProps } from 'next';
 
-export default function Home(): ReactElement {
+type Props = {
+  content: string;
+};
+
+export default function Home({ content }: Props): ReactElement {
   return (
     <Layout>
       <Head>
         <title>Home</title>
       </Head>
-      <Container maxWidth="sm">
-        <Box sx={{ my: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Next.js v5-alpha with TypeScript example
-          </Typography>
-          <Button variant="contained" component={Link} noLinkStyle href="/about">
-            Go to the about page
-          </Button>
-          <ProTip />
-        </Box>
-      </Container>
+      <Container>{unified().use(parse).use(remark2react).processSync(content).result}</Container>
     </Layout>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const dir = path.resolve('./README.md');
+  const fileContent = fs.readFileSync(dir, 'utf8');
+  return {
+    props: {
+      content: fileContent
+    }
+  };
+};
