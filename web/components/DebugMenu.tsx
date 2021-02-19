@@ -1,10 +1,10 @@
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SpeedDial from '@material-ui/core/SpeedDial';
 import { Build as BuildIcon, Timeline as XStateIcon } from '@material-ui/icons';
 import SpeedDialAction from '@material-ui/core/SpeedDialAction';
-import { AppContext, AppEvent } from '../machines/app/appMachine';
-import { useService } from '@xstate/react';
+import { AppEvent } from '../machines/app/appMachine';
+import useAppService from '../hooks/useAppService';
 
 const useStyles = makeStyles((theme) => ({
   speedDial: {
@@ -24,10 +24,8 @@ const actions: Action[] = [{ icon: <XStateIcon />, name: 'XState Inspect', event
 
 const DebugMenu = (): ReactElement => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const service = useContext(AppContext);
-  const [current, send] = useService(service);
+  const [open, setOpen] = useState(false);
+  const [current, send] = useAppService();
 
   const handleOpen = () => {
     setOpen(true);

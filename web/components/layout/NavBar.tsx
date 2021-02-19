@@ -1,10 +1,10 @@
-import { AppBar, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
-import React, { ReactElement, useContext } from 'react';
+import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import React, { ReactElement } from 'react';
 import clsx from 'clsx';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import infos from '../../constants/infos';
-import { useService } from '@xstate/react';
-import { AppContext } from '../../machines/app/appMachine';
+import Link from '../Link';
+import useAppService from '../../hooks/useAppService';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -31,8 +31,9 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = (): ReactElement => {
   const classes = useStyles();
-  const service = useContext(AppContext);
-  const [, send] = useService(service);
+  const [current, send] = useAppService();
+
+  const isAuthenticated = current.matches('user.loggedIn');
 
   const toggleDrawer = () => send('TOGGLE_DRAWER');
 
@@ -52,16 +53,16 @@ const NavBar = (): ReactElement => {
         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
           {infos.siteName}
         </Typography>
-        {/*!isAuthenticated && (
-          <Button color="inherit" onClick={() => send('LOGIN')}>
-            Log In
+        {!isAuthenticated && (
+          <Button variant="contained" color="primary" component={Link} href="/api/auth/login">
+            Login
           </Button>
-        ) */}
-        {/*isAuthenticated && (
-          <Button color="inherit" onClick={() => send('LOGOUT')}>
-            Log Out
+        )}
+        {isAuthenticated && (
+          <Button variant="contained" color="primary" component={Link} href="/api/auth/logout">
+            Logout
           </Button>
-        )*/}
+        )}
       </Toolbar>
     </AppBar>
   );

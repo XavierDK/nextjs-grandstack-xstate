@@ -8,12 +8,11 @@ import {
   makeStyles,
   Toolbar
 } from '@material-ui/core';
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement } from 'react';
 import clsx from 'clsx';
 import Link from '../Link';
 import pages from '../../constants/pages';
-import { useService } from '@xstate/react';
-import { AppContext } from '../../machines/app/appMachine';
+import useAppService from '../../hooks/useAppService';
 
 const drawerWidth = 240;
 
@@ -46,8 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Drawer = (): ReactElement => {
   const classes = useStyles();
-  const service = useContext(AppContext);
-  const [current] = useService(service);
+  const [current] = useAppService();
   const isDrawerOpened = current.matches('drawer.opened');
   return (
     <MUIDrawer

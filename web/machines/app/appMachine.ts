@@ -1,10 +1,15 @@
-import React from 'react';
 import { Interpreter, Machine, MachineConfig } from 'xstate';
 import config from '../../constants/config';
 import { Storage } from '../../utils/storage';
 
 interface AppStateSchema {
   states: {
+    user: {
+      states: {
+        loggedOut: Record<string, never>;
+        loggedIn: Record<string, never>;
+      };
+    };
     drawer: {
       states: {
         closed: Record<string, never>;
@@ -30,7 +35,11 @@ interface AppStateSchema {
 }
 
 // The events that the machine handles
-export type AppEvent = { type: 'TOGGLE_DRAWER' } | { type: 'OPEN_XSTATE_INSPECT' };
+export type AppEvent =
+  | { type: 'TOGGLE_DRAWER' }
+  | { type: 'OPEN_XSTATE_INSPECT' }
+  | { type: 'USER_LOGIN' }
+  | { type: 'USER_LOGOUT' };
 
 // The context (extended state) of the machine
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -44,6 +53,21 @@ export default Machine<AppContext, AppStateSchema, AppEvent>(
     key: 'app',
     type: 'parallel',
     states: {
+      user: {
+        initial: 'loggedOut',
+        states: {
+          loggedOut: {
+            on: {
+              USER_LOGIN: 'loggedIn'
+            }
+          },
+          loggedIn: {
+            on: {
+              USER_LOGOUT: 'loggedOut'
+            }
+          }
+        }
+      },
       drawer: {
         initial: 'closed',
         states: {
@@ -99,6 +123,3 @@ export default Machine<AppContext, AppStateSchema, AppEvent>(
     }
   }
 );
-
-export const AppContext = React.createContext<AppServiceType>(undefined);
-export const AppProvider = AppContext.Provider;
