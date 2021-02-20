@@ -12,7 +12,7 @@ import React, { ReactElement } from 'react';
 import clsx from 'clsx';
 import Link from '../Link';
 import pages from '../../constants/pages';
-import useAppService from '../../hooks/useAppService';
+import useAppState from '../../hooks/useAppState';
 
 const drawerWidth = 240;
 
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Drawer = (): ReactElement => {
   const classes = useStyles();
-  const [current] = useAppService();
+  const [current] = useAppState();
   const isDrawerOpened = current.matches('drawer.opened');
   return (
     <MUIDrawer

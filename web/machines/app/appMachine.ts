@@ -1,7 +1,11 @@
-import { Interpreter, Machine, MachineConfig } from 'xstate';
-import config from '../../constants/config';
-import { Storage } from '../../utils/storage';
+import { Interpreter, Machine, MachineConfig, PayloadSender, State } from 'xstate';
+import appMachineOptions from './appMachineOptions';
+import { UserProfile } from '@auth0/nextjs-auth0';
+import { createUpdater, ImmerUpdateEvent } from '@xstate/immer';
 
+/**
+ * The schema definition of the machine
+ */
 interface AppStateSchema {
   states: {
     user: {
@@ -34,20 +38,40 @@ interface AppStateSchema {
   };
 }
 
-// The events that the machine handles
+/**
+ * The events that the machine handles
+ */
+
+type LoginUpdateEvent = ImmerUpdateEvent<'USER_LOGIN', UserProfile>;
+
+export const loginUpdater = createUpdater<AppContext, LoginUpdateEvent>('USER_LOGIN', (ctx, { input }) => {
+  ctx.user = input;
+});
+
 export type AppEvent =
   | { type: 'TOGGLE_DRAWER' }
   | { type: 'OPEN_XSTATE_INSPECT' }
-  | { type: 'USER_LOGIN' }
+  | LoginUpdateEvent
   | { type: 'USER_LOGOUT' };
 
-// The context (extended state) of the machine
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface AppContext {}
+/**
+ * The context (extended state) of the machine
+ */
+export interface AppContext {
+  isDebugEnabled: boolean;
+  user: UserProfile;
+}
 
+/**
+ * Useful types
+ */
 export type AppMachineType = MachineConfig<AppContext, AppStateSchema, AppEvent>;
-export type AppServiceType = Interpreter<AppContext, AppStateSchema, AppEvent>;
+export type AppServiceType = Interpreter<AppContext>;
+export type AppStateType = [State<AppContext>, PayloadSender<AppEvent>];
 
+/**
+ * The App machine
+ */
 export default Machine<AppContext, AppStateSchema, AppEvent>(
   {
     key: 'app',
@@ -58,12 +82,15 @@ export default Machine<AppContext, AppStateSchema, AppEvent>(
         states: {
           loggedOut: {
             on: {
-              USER_LOGIN: 'loggedIn'
+              [loginUpdater.type]: {
+                target: 'loggedIn',
+                actions: loginUpdater.action
+              }
             }
           },
           loggedIn: {
             on: {
-              USER_LOGOUT: 'loggedOut'
+              USER_LOGOUT: { target: 'loggedOut', actions: 'assignUser' }
             }
           }
         }
@@ -96,16 +123,13 @@ export default Machine<AppContext, AppStateSchema, AppEvent>(
                 initial: 'idle',
                 states: {
                   idle: {
-                    entry: () => Storage.disableXStateInspect(),
+                    entry: 'disableInspect',
                     on: {
                       OPEN_XSTATE_INSPECT: 'launch'
                     }
                   },
                   launch: {
-                    entry: () => {
-                      Storage.enableXStateInspect();
-                      location.reload();
-                    }
+                    entry: 'launchInspect'
                   }
                 }
               }
@@ -115,11 +139,5 @@ export default Machine<AppContext, AppStateSchema, AppEvent>(
       }
     }
   },
-  {
-    guards: {
-      isDebugEnabled: () => {
-        return config.isDebugEnabled;
-      }
-    }
-  }
+  appMachineOptions
 );

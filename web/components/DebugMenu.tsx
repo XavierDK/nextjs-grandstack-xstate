@@ -4,7 +4,7 @@ import SpeedDial from '@material-ui/core/SpeedDial';
 import { Build as BuildIcon, Timeline as XStateIcon } from '@material-ui/icons';
 import SpeedDialAction from '@material-ui/core/SpeedDialAction';
 import { AppEvent } from '../machines/app/appMachine';
-import useAppService from '../hooks/useAppService';
+import useAppService from '../hooks/useAppState';
 
 const useStyles = makeStyles((theme) => ({
   speedDial: {

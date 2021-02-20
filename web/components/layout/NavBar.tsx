@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import infos from '../../constants/infos';
 import Link from '../Link';
-import useAppService from '../../hooks/useAppService';
+import useAppState from '../../hooks/useAppState';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = (): ReactElement => {
   const classes = useStyles();
-  const [current, send] = useAppService();
+  const [current, send] = useAppState();
 
   const isAuthenticated = current.matches('user.loggedIn');
 
